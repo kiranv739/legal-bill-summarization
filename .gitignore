@@ -1,0 +1,13 @@
+__pycache__/
+*.pt
+*.bin
+*.ckpt
+*.log
+logs/
+*.pdf
+*.txt
+*.jsonl
+*.csv
+/bart_model/
+/flant5_model/
+/summaries_*/
