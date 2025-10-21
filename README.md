@@ -51,7 +51,7 @@ legal-bill-summarization/
 │   └── dataset.jsonl
 │
 ├── .gitignore
-└── LICENSE
+
 
 3. Setup
 1️⃣ Clone the repository
