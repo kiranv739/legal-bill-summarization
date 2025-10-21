@@ -55,7 +55,7 @@ legal-bill-summarization/
 
 3. Setup
 1️⃣ Clone the repository
-git clone https://github.com/<your-username>/legal-bill-summarization.git
+git clone https://github.com/kiranv739/legal-bill-summarization.git
 cd legal-bill-summarization
 
 2️⃣ Install dependencies
