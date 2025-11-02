@@ -1,6 +1,3 @@
-Author: Kiran Varma Indukuri
-Affiliation: PES University, Bangalore
-
 1. Overview
 
 This project implements a transformer-based text summarization pipeline for Indian legal bills, leveraging both fine-tuned and hybrid models.
