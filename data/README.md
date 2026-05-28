@@ -25,13 +25,6 @@ data/
 |   |-- dataset.jsonl
 ```
 
-## Quick Start for Collaborators
-1. Download dataset and model artifacts from your published links.
-2. Place them into the expected local paths shown above.
-3. Run:
-   - `python -m streamlit run app.py`
-   - or training/inference scripts as needed.
-
 ## Notes
 - Do not commit private or licensed data unless sharing is permitted.
 - Keep only a very small sample in GitHub if you want reproducible demos.
