@@ -1,106 +1,131 @@
-1. Overview
+# Legal Bill Summarization
 
-This project implements a transformer-based text summarization pipeline for Indian legal bills, leveraging both fine-tuned and hybrid models.
-It uses BART and FLAN-T5 architectures for extractive and abstractive summarization respectively, with a hybrid pipeline that combines their strengths for improved factuality and readability.
+Transformer-based summarization pipeline for Indian legal bills using:
+- `BART` (extractive-style summarization)
+- `FLAN-T5` (abstractive summarization)
+- Hybrid pipeline: `BART finetuned -> FLAN-T5 finetuned`
 
-This repository is structured to let you:
+## What This Project Does
+- Preprocesses bill PDFs and reference summaries into JSONL training data
+- Fine-tunes BART and FLAN-T5 models
+- Runs baseline, finetuned, and hybrid summarization
+- Evaluates summaries using ROUGE, BLEU, and BERTScore
+- Provides a Streamlit GUI for interactive summarization
 
-Preprocess and clean raw bill PDFs and summaries
-
-Train transformer models on your dataset
-
-Run inference using fine-tuned or hybrid models
-
-Evaluate performance using ROUGE, BLEU, and BERTScore
-
-2. Features
-
-✅ Preprocessing of PDF bills & summary text files
-✅ Fine-tuning BART and T5 on custom JSONL datasets
-✅ Hybrid summarization combining extractive (BART) and abstractive (T5) models
-✅ Evaluation with ROUGE, BLEU, and BERTScore
-✅ Modular design (training / inference / evaluation folders)
-
-Folder Structure
+## Project Structure
+```text
 legal-bill-summarization/
-│
-├── README.md
-├── requirements.txt
-├── dataset_formating.py
-│
-├── training/
-│   ├── train_model_bart.py
-│   ├── train_model_t5.py
-│
-├── summarization/
-│   ├── bart_finetuned.py
-│   ├── t5_finetuned.py
-│   ├── hybrid_finetuned.py
-│   ├── BART_baseline.py
-│   ├── T5_baseline.py
-│
-├── evaluation/
-│   └── val_rouge.py
-│
-├── sample_data/         # update this directory in the code 
-│   ├── bills/           # sample PDFs
-│   ├── summaries/       # reference summaries
-│   └── dataset.jsonl
-│
-├── .gitignore
+|-- app.py
+|-- dataset_formating.py
+|-- train_model_bart.py
+|-- train_model_t5.py
+|-- BART_baseline.py
+|-- T5_baseline.py
+|-- bart_finetuned.py
+|-- t5_finetuned.py
+|-- FINAL_FINETUNED.py
+|-- val_rouge.py
+|-- requirements.txt
+|-- .gitignore
+|-- bart_model/          # local finetuned model folder (not pushed)
+|-- flant5_model/        # local finetuned model folder (not pushed)
+```
 
-
-3. Setup
-1️⃣ Clone the repository
+## Setup
+1. Clone repository
+```bash
 git clone https://github.com/kiranv739/legal-bill-summarization.git
 cd legal-bill-summarization
+```
 
-2️⃣ Install dependencies
+2. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-3️⃣ Prepare your dataset
-
-Place your bill PDFs in sample_data/bills/
-and reference summaries in text file's in sample_data/summaries/, then run:
-
+## Dataset Formatting
+Put bill PDFs in `bills/` and summary `.txt` files in `summaries/`, then run:
+```bash
 python dataset_formating.py
+```
+This creates `dataset.jsonl` with `text` and `summary` fields.
 
+## Training
+Fine-tune BART:
+```bash
+python train_model_bart.py
+```
 
-This generates a clean dataset.jsonl file with "text" and "summary" fields.
+Fine-tune FLAN-T5:
+```bash
+python train_model_t5.py
+```
 
-4. Training
-▶️ Fine-tune BART
-python training/train_model_bart.py
+By default, models are saved locally to:
+- `bart_model/`
+- `flant5_model/`
 
-▶️ Fine-tune FLAN-T5
-python training/train_model_t5.py
+## Inference Scripts
+Baseline BART:
+```bash
+python BART_baseline.py
+```
 
-Fine-tuned models will be saved in:
-/bart_model/
-/flant5_model/
+Baseline FLAN-T5:
+```bash
+python T5_baseline.py
+```
 
-5. Summarization (Inference)
+Finetuned BART:
+```bash
+python bart_finetuned.py
+```
 
-Use one of the fine-tuned models or the hybrid model:
+Finetuned FLAN-T5:
+```bash
+python t5_finetuned.py
+```
 
-python summarization/bart_finetuned.py
-python summarization/t5_finetuned.py
-python summarization/hybrid_finetuned.py
+Hybrid (finetuned BART -> finetuned FLAN-T5):
+```bash
+python FINAL_FINETUNED.py
+```
 
-
-Each script reads input text (bill) and outputs generated summaries.
-
-7. GUI (Streamlit)
-You can also run an interactive GUI for upload + summarization:
-
+## GUI (Streamlit)
+Run:
+```bash
 python -m streamlit run app.py
+```
 
-Features:
-- Upload PDF bill directly
-- Choose mode: BART baseline, FLAN-T5 baseline, finetuned BART, finetuned FLAN-T5, or hybrid (BART -> FLAN-T5)
-- View generated summary and download as `.txt`
+### GUI Features
+- Upload PDF bill and summarize directly
+- Choose:
+  - BART Baseline
+  - FLAN-T5 Baseline
+  - BART Finetuned
+  - FLAN-T5 Finetuned
+  - Hybrid (BART Finetuned -> FLAN-T5 Finetuned)
+- Configure finetuned model folder paths from the sidebar (not hardcoded)
+- PDF extraction progress + chunk-level summarization progress
+- GPU/device visibility in sidebar
+- Download summary as `.txt`
 
-6. Evaluation
-You can compute ROUGE, BLEU, and BERTScore with:
-python evaluation/val_rouge.py
+## Evaluation
+```bash
+python val_rouge.py
+```
+Outputs ROUGE, BLEU, BERTScore and exports `summary_evaluation_metrics.csv`.
 
+## Important Note on Model Folders
+Model folders are intentionally not pushed to GitHub because they are large.
+- Keep `bart_model/` and `flant5_model/` local
+- Use the GUI sidebar to point to their paths
+- Share only code via GitHub
+
+## Recent Changes
+- Added `app.py` Streamlit GUI
+- Added `streamlit` to dependencies
+- Fixed long-sequence tokenization issues for T5/BART chunking
+- Fixed finetuned BART runtime error (`len() of a 0-d tensor`)
+- Added non-hardcoded finetuned model path inputs in GUI
+- Added preload option and better progress feedback
