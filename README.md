@@ -43,31 +43,6 @@ cd legal-bill-summarization
 pip install -r requirements.txt
 ```
 
-## Artifact Management (Best Practice)
-Keep large files out of GitHub:
-- Code and documentation: GitHub
-- Models and full datasets: external storage + links in README
-
-See detailed guidance in `data/README.md`.
-
-### Recommended Approach
-1. Host finetuned model zip files externally (Drive/S3/Hugging Face/Kaggle).
-2. Keep `bart_model/` and `flant5_model/` local (already ignored by `.gitignore`).
-3. Optionally host your full dataset externally and keep only a small sample in repo.
-
-### Optional Model Download Helper
-You can download model archives via environment-variable URLs:
-
-```powershell
-$env:BART_MODEL_URL="https://your-link/bart_model.zip"
-$env:T5_MODEL_URL="https://your-link/flant5_model.zip"
-python scripts/download_models.py
-```
-
-The script extracts to:
-- `bart_model/`
-- `flant5_model/`
-
 ## Dataset Formatting
 Put bill PDFs in `bills/` and summary `.txt` files in `summaries/`, then run:
 ```bash
