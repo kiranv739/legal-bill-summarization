@@ -6,3 +6,4 @@ nltk
 tqdm
 evaluate
 bert-score
+streamlit

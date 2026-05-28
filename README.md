@@ -90,6 +90,16 @@ python summarization/hybrid_finetuned.py
 
 Each script reads input text (bill) and outputs generated summaries.
 
+7. GUI (Streamlit)
+You can also run an interactive GUI for upload + summarization:
+
+python -m streamlit run app.py
+
+Features:
+- Upload PDF bill directly
+- Choose mode: BART baseline, FLAN-T5 baseline, finetuned BART, finetuned FLAN-T5, or hybrid (BART -> FLAN-T5)
+- View generated summary and download as `.txt`
+
 6. Evaluation
 You can compute ROUGE, BLEU, and BERTScore with:
 python evaluation/val_rouge.py
