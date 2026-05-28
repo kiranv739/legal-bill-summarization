@@ -25,6 +25,3 @@ data/
 |   |-- dataset.jsonl
 ```
 
-## Notes
-- Do not commit private or licensed data unless sharing is permitted.
-- Keep only a very small sample in GitHub if you want reproducible demos.
